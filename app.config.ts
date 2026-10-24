@@ -4,6 +4,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: 'RotaFix',
   slug: 'rotafix',
+  owner: 'brunomnoronha',
+  extra: {
+    eas: { projectId: 'b0455e6c-0e6c-4910-8c3c-d536458b122d' },
+  },
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
