@@ -38,6 +38,7 @@ const MIGRATIONS: string[] = [
     fetched_at INTEGER NOT NULL
   );
   `,
+  `ALTER TABLE stops ADD COLUMN geocode_precision TEXT;`,
 ];
 
 export async function migrate(db: SQLiteDatabase): Promise<void> {

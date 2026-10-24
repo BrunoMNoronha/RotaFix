@@ -1,4 +1,6 @@
 export type GeocodeStatus = 'ok' | 'pending' | 'failed';
+/** address: número exato · street: trecho da rua · cep: centroide do CEP (aproximado) */
+export type GeocodePrecision = 'address' | 'street' | 'cep';
 
 export interface Route {
   id: string;
@@ -23,6 +25,7 @@ export interface Stop {
   lat: number | null;
   lng: number | null;
   geocodeStatus: GeocodeStatus;
+  geocodePrecision: GeocodePrecision | null;
   sequence: number | null;
   done: boolean;
   createdAt: number;

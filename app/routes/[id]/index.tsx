@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Alert, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { router, Stack, useFocusEffect, useLocalSearchParams } from 'expo-router';
-import { useRoutesStore } from '@/store/useRoutesStore';
+import { needsGeocodeRetry, useRoutesStore } from '@/store/useRoutesStore';
 import type { LatLng, Stop } from '@/db/types';
 import { getCurrentLatLng, LocationPermissionError } from '@/services/location';
 import { chunkForGoogle, openNavigation, openWaze } from '@/services/navigation';
@@ -40,7 +40,9 @@ export default function RouteDetailScreen() {
     }, [routeId, loadStops]),
   );
 
-  const pendingCount = useMemo(() => stops.filter((s) => s.geocodeStatus !== 'ok').length, [stops]);
+  const missingCount = useMemo(() => stops.filter((s) => s.geocodeStatus !== 'ok').length, [stops]);
+  const approxCount = useMemo(() => stops.filter((s) => s.geocodeStatus === 'ok' && needsGeocodeRetry(s)).length, [stops]);
+  const pendingCount = missingCount + approxCount;
   const orderedOpen = useMemo(
     () =>
       stops
@@ -160,7 +162,13 @@ export default function RouteDetailScreen() {
       {pendingCount > 0 ? (
         <View style={styles.bannerWrap}>
           <Banner
-            text={`${pendingCount} ponto(s) sem localização no mapa.`}
+            text={
+              missingCount > 0 && approxCount > 0
+                ? `${missingCount} ponto(s) sem localização e ${approxCount} com local aproximado.`
+                : missingCount > 0
+                  ? `${missingCount} ponto(s) sem localização no mapa.`
+                  : `${approxCount} ponto(s) com local aproximado pelo CEP.`
+            }
             action={{ title: 'Tentar novamente', onPress: () => void retryPendingGeocodes(routeId) }}
           />
         </View>

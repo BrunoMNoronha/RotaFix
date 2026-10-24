@@ -69,6 +69,7 @@ export default function AddStopScreen() {
         lat: null,
         lng: null,
         geocodeStatus: 'pending',
+        geocodePrecision: null,
       });
       router.back();
     } catch (e) {

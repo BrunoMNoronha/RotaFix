@@ -37,6 +37,11 @@ interface RoutesState {
   optimize(routeId: string, start: LatLng): Promise<{ totalDistance: number; skipped: number }>;
 }
 
+/** Sem coordenadas, ou com coordenadas aproximadas (centroide do CEP / precisão desconhecida). */
+export function needsGeocodeRetry(s: Stop): boolean {
+  return s.geocodeStatus !== 'ok' || s.geocodePrecision === 'cep' || s.geocodePrecision === null;
+}
+
 function requireRepo(repo: Repo | null): Repo {
   if (!repo) throw new Error('Banco de dados não inicializado');
   return repo;
@@ -150,7 +155,12 @@ export const useRoutesStore = create<RoutesState>((set, get) => ({
         cep: stop.cep,
       });
       if (coords) {
-        await repo.updateStop(stop.id, { lat: coords.lat, lng: coords.lng, geocodeStatus: 'ok' });
+        await repo.updateStop(stop.id, {
+          lat: coords.lat,
+          lng: coords.lng,
+          geocodeStatus: 'ok',
+          geocodePrecision: coords.precision,
+        });
       } else {
         await repo.updateStop(stop.id, { geocodeStatus: 'failed' });
       }
@@ -168,7 +178,7 @@ export const useRoutesStore = create<RoutesState>((set, get) => ({
 
   async retryPendingGeocodes(routeId) {
     const list = get().stops[routeId] ?? [];
-    const pending = list.filter((s) => s.geocodeStatus !== 'ok');
+    const pending = list.filter(needsGeocodeRetry);
     for (const s of pending) {
       await get().geocodeStop(routeId, s);
     }

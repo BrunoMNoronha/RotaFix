@@ -1,5 +1,5 @@
 import type { SQLiteDatabase } from 'expo-sqlite';
-import type { GeocodeStatus, NewStop, Route, Stop } from './types';
+import type { GeocodePrecision, GeocodeStatus, NewStop, Route, Stop } from './types';
 import { uuid } from '@/utils/uuid';
 
 interface RouteRow {
@@ -25,6 +25,7 @@ interface StopRow {
   lat: number | null;
   lng: number | null;
   geocode_status: GeocodeStatus;
+  geocode_precision: GeocodePrecision | null;
   sequence: number | null;
   done: number;
   created_at: number;
@@ -53,6 +54,7 @@ const toStop = (s: StopRow): Stop => ({
   lat: s.lat,
   lng: s.lng,
   geocodeStatus: s.geocode_status,
+  geocodePrecision: s.geocode_precision ?? null,
   sequence: s.sequence,
   done: s.done === 1,
   createdAt: s.created_at,
@@ -72,6 +74,7 @@ const STOP_COLUMNS: Record<string, string> = {
   lat: 'lat',
   lng: 'lng',
   geocodeStatus: 'geocode_status',
+  geocodePrecision: 'geocode_precision',
   sequence: 'sequence',
   done: 'done',
 };
@@ -145,8 +148,8 @@ export class Repo {
   private async insertStop(s: Stop): Promise<void> {
     await this.db.runAsync(
       `INSERT OR REPLACE INTO stops (id, route_id, cep, street, neighborhood, city, state, number, complement, label,
-        lat, lng, geocode_status, sequence, done, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        lat, lng, geocode_status, geocode_precision, sequence, done, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         s.id,
         s.routeId,
@@ -161,6 +164,7 @@ export class Repo {
         s.lat,
         s.lng,
         s.geocodeStatus,
+        s.geocodePrecision,
         s.sequence,
         s.done ? 1 : 0,
         s.createdAt,
