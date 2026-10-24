@@ -62,7 +62,8 @@ export default function RouteDetailScreen() {
           'Permita o acesso à localização ou defina um ponto inicial fixo (toque longo em um ponto da lista).',
         );
       } else {
-        Alert.alert('Erro de GPS', 'Não foi possível obter sua posição. Tente novamente.');
+        const detail = e instanceof Error ? e.message : 'Não foi possível obter sua posição.';
+        Alert.alert('Erro de GPS', `${detail}\n\nVocê também pode definir um ponto inicial fixo com toque longo em um ponto da lista.`);
       }
       return null;
     }
