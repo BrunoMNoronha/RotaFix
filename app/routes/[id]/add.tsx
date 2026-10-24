@@ -8,18 +8,27 @@ import { Button, Card } from '@/components/ui';
 import { colors, spacing } from '@/theme';
 
 export default function AddStopScreen() {
-  const { id: routeId } = useLocalSearchParams<{ id: string }>();
+  const params = useLocalSearchParams<{
+    id: string;
+    cep?: string;
+    number?: string;
+    label?: string;
+    complement?: string;
+  }>();
+  const routeId = params.id;
   const lookupCep = useRoutesStore((s) => s.lookupCep);
   const addStop = useRoutesStore((s) => s.addStop);
 
-  const [cep, setCep] = useState('');
+  // Valores iniciais podem vir da leitura de etiqueta (scan.tsx)
+  const [cep, setCep] = useState(normalizeCep(params.cep ?? ''));
   const [street, setStreet] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
-  const [number, setNumber] = useState('');
-  const [complement, setComplement] = useState('');
-  const [label, setLabel] = useState('');
+  const [number, setNumber] = useState(params.number ?? '');
+  const [complement, setComplement] = useState(params.complement ?? '');
+  const [label, setLabel] = useState(params.label ?? '');
+  const fromScan = Boolean(params.cep);
   const [looking, setLooking] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -89,11 +98,12 @@ export default function AddStopScreen() {
               onChangeText={(t) => setCep(normalizeCep(t))}
               keyboardType="number-pad"
               maxLength={9}
-              autoFocus
+              autoFocus={!fromScan}
               placeholder="00000-000"
               style={styles.input}
             />
           </Field>
+          {fromScan ? <Text style={styles.hint}>Dados lidos da etiqueta. Confira antes de salvar.</Text> : null}
           {looking ? <Text style={styles.hint}>Buscando endereço…</Text> : null}
           {error ? <Text style={styles.error}>{error}</Text> : null}
 

@@ -44,6 +44,7 @@ export default function RootLayout() {
           <Stack.Screen name="routes/index" options={{ title: 'Minhas rotas' }} />
           <Stack.Screen name="routes/[id]/index" options={{ title: 'Rota' }} />
           <Stack.Screen name="routes/[id]/add" options={{ title: 'Adicionar CEP', presentation: 'modal' }} />
+          <Stack.Screen name="routes/[id]/scan" options={{ title: 'Ler etiqueta', presentation: 'fullScreenModal' }} />
           <Stack.Screen name="settings" options={{ title: 'Ajustes' }} />
         </Stack>
       </StoreBinder>

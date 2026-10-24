@@ -182,7 +182,7 @@ export default function RouteDetailScreen() {
           keyExtractor={(s) => s.id}
           contentContainerStyle={styles.list}
           ListEmptyComponent={
-            <Empty title="Nenhum ponto nesta rota" subtitle='Toque em "Adicionar CEP" para começar.' />
+            <Empty title="Nenhum ponto nesta rota" subtitle="Leia a etiqueta de envio pela câmera ou digite o CEP para começar." />
           }
           renderItem={({ item }) => (
             <Pressable onLongPress={() => setAsStart(item)}>
@@ -203,7 +203,13 @@ export default function RouteDetailScreen() {
         {start ? <Text style={styles.startHint}>Início fixo definido · toque longo em um ponto para alterar</Text> : null}
         <View style={styles.footerRow}>
           <Button
-            title="Adicionar CEP"
+            title="Ler etiqueta"
+            variant="secondary"
+            style={{ flex: 1 }}
+            onPress={() => router.push({ pathname: '/routes/[id]/scan', params: { id: routeId } })}
+          />
+          <Button
+            title="Digitar CEP"
             variant="secondary"
             style={{ flex: 1 }}
             onPress={() => router.push({ pathname: '/routes/[id]/add', params: { id: routeId } })}

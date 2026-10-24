@@ -33,6 +33,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-sqlite',
     'expo-sharing',
     [
+      'expo-camera',
+      {
+        cameraPermission: 'RotaFix usa a câmera para ler etiquetas de envio.',
+        recordAudioAndroid: false,
+      },
+    ],
+    [
       'expo-location',
       {
         locationAlwaysAndWhenInUsePermission:
