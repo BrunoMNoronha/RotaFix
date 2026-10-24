@@ -1,0 +1,222 @@
+<title>Etiquetas de Teste RotaFix</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap">
+<style>
+  /* Layout: uma folha por etiqueta, 100 x 150 mm (padrão térmico 4x6), empilhadas; a página em volta é só moldura. */
+  :root {
+    --bg: #ECEFF3;
+    --fg: #1C2430;
+    --muted: #5B6675;
+    --paper: #FFFFFF;
+    --ink: #111111;
+    --rule: #111111;
+    --accent: #1565C0;
+    --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #141920; --fg: #E6EAF0; --muted: #9AA5B4; color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --bg: #141920; --fg: #E6EAF0; --muted: #9AA5B4; color-scheme: dark; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 24px 48px;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; display: grid; gap: 28px; }
+  h1 { font-size: 1.5rem; margin: 0; text-wrap: balance; }
+  .lead { color: var(--muted); max-width: 62ch; line-height: 1.5; margin: 0; }
+  .lead code { font-family: var(--mono); font-size: .9em; }
+  .expect { font-size: .85rem; color: var(--muted); display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 0; }
+  .expect dt { font-family: var(--mono); text-transform: uppercase; letter-spacing: .06em; font-size: .72rem; align-self: center; }
+  .expect dd { margin: 0; font-family: var(--mono); color: var(--fg); }
+  .sample { display: grid; gap: 10px; }
+  .sample h2 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 0; font-weight: 600; }
+
+  /* A etiqueta em si: papel branco sempre, mesmo no tema escuro, porque é o que a câmera vai ler. */
+  .label {
+    background: var(--paper);
+    color: var(--ink);
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 2 / 3;
+    border: 1px solid #B9C0CA;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.35;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow: hidden;
+    color-scheme: light;
+  }
+  .label > * { padding: 10px 12px; }
+  .hdr { border-bottom: 2px solid var(--rule); display: flex; justify-content: space-between; align-items: baseline; font-family: var(--sans); font-weight: 700; }
+  .hdr small { font-family: var(--mono); font-weight: 400; font-size: 11px; }
+  .body { display: grid; align-content: start; gap: 10px; }
+  .blk { display: grid; gap: 2px; }
+  .k { font-family: var(--sans); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+  .big { font-size: 15px; font-weight: 600; }
+  .cep { font-weight: 600; }
+  .sep { border-top: 1px dashed var(--rule); }
+  .ftr { border-top: 2px solid var(--rule); display: grid; justify-items: center; gap: 2px; }
+  .ftr svg { max-width: 100%; height: auto; }
+  .ftr .cap { font-size: 11px; }
+  .notes { color: var(--muted); font-size: .9rem; line-height: 1.5; max-width: 62ch; }
+  .notes ul { margin: 6px 0 0; padding-left: 18px; }
+  @media (max-width: 440px) { .label { font-size: 11.5px; } }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:10px">
+    <h1>Etiquetas de teste para o leitor do RotaFix</h1>
+    <p class="lead">Quatro etiquetas no estilo de cada plataforma. Imprima ou abra nesta tela e aponte a câmera do app para o bloco do destinatário. Abaixo de cada uma está o que o parser deve extrair. Os endereços e nomes são fictícios; só os CEPs são reais.</p>
+  </header>
+
+  <section class="sample">
+    <h2>1. Mercado Livre (Mercado Envios via Correios)</h2>
+    <div class="label">
+      <div class="hdr"><span>Mercado Envios</span><small>NF 000.123.456 · Vol 1/1</small></div>
+      <div class="body">
+        <div class="blk">
+          <span class="k">Destinatário</span>
+          <span class="big">João da Silva Souza</span>
+          <span>Rua das Flores, 123 - Apto 42</span>
+          <span>Jardim Primavera</span>
+          <span class="cep">CEP: 72331-502 Brasília - DF</span>
+        </div>
+        <div class="sep"></div>
+        <div class="blk">
+          <span class="k">Remetente</span>
+          <span>Loja XPTO LTDA</span>
+          <span>Av. Paulista, 1578</span>
+          <span>CEP: 01310-200 São Paulo - SP</span>
+        </div>
+      </div>
+      <div class="ftr">
+        <svg class="bc" data-code="72331502"></svg>
+        <span class="cap">CEP 72331502</span>
+      </div>
+    </div>
+    <dl class="expect">
+      <dt>CEP</dt><dd>72331502 (também pelo código de barras)</dd>
+      <dt>Nome</dt><dd>João da Silva Souza</dd>
+      <dt>Número</dt><dd>123</dd>
+      <dt>Compl.</dt><dd>Apto 42</dd>
+    </dl>
+  </section>
+
+  <section class="sample">
+    <h2>2. Shopee (Shopee Xpress)</h2>
+    <div class="label">
+      <div class="hdr"><span>Shopee Xpress BR</span><small>BR2412345678Z</small></div>
+      <div class="body">
+        <div class="blk">
+          <span class="k">Para:</span>
+          <span class="big">Maria Oliveira</span>
+          <span>Quadra QS 601 Conjunto B, Nº 15, Casa 2</span>
+          <span>Samambaia Norte</span>
+          <span class="cep">72331502 - Brasília/DF</span>
+        </div>
+        <div class="sep"></div>
+        <div class="blk">
+          <span class="k">De:</span>
+          <span>Vendedor Legal</span>
+          <span>Rua A, 10 - 04538-133 São Paulo SP</span>
+        </div>
+      </div>
+      <div class="ftr">
+        <svg class="bc" data-code="BR2412345678Z"></svg>
+        <span class="cap">Rastreio (não é CEP)</span>
+      </div>
+    </div>
+    <dl class="expect">
+      <dt>CEP</dt><dd>72331502 (OCR; dois CEPs na etiqueta, app pergunta se não houver barcode)</dd>
+      <dt>Nome</dt><dd>Maria Oliveira</dd>
+      <dt>Número</dt><dd>15</dd>
+      <dt>Compl.</dt><dd>Casa 2</dd>
+    </dl>
+  </section>
+
+  <section class="sample">
+    <h2>3. Amazon</h2>
+    <div class="label">
+      <div class="hdr"><span>amazon</span><small>TBA1234567890</small></div>
+      <div class="body">
+        <div class="blk">
+          <span class="k">Ship to:</span>
+          <span class="big">Carlos Pereira</span>
+          <span>Avenida Brigadeiro Faria Lima 1811 Bloco B</span>
+          <span>Itaim Bibi</span>
+          <span class="cep">SAO PAULO, SP 04538-133</span>
+          <span>BR</span>
+        </div>
+      </div>
+      <div class="ftr">
+        <svg class="bc" data-code="TBA1234567890"></svg>
+        <span class="cap">Tracking (não é CEP)</span>
+      </div>
+    </div>
+    <dl class="expect">
+      <dt>CEP</dt><dd>04538133</dd>
+      <dt>Nome</dt><dd>Carlos Pereira</dd>
+      <dt>Número</dt><dd>1811</dd>
+      <dt>Compl.</dt><dd>Bloco B</dd>
+    </dl>
+  </section>
+
+  <section class="sample">
+    <h2>4. Correios (remetente antes do destinatário)</h2>
+    <div class="label">
+      <div class="hdr"><span>Correios · PAC</span><small>Peso 1,2 kg</small></div>
+      <div class="body">
+        <div class="blk">
+          <span class="k">Remetente: Empresa Alfa</span>
+          <span>Rua B, 50</span>
+          <span>30130-010 Belo Horizonte MG</span>
+        </div>
+        <div class="sep"></div>
+        <div class="blk">
+          <span class="k">Destinatário: Ana Costa</span>
+          <span>Praça da Alfândega, 2529, sala 301</span>
+          <span>Centro Histórico</span>
+          <span class="cep">90010-150 PORTO ALEGRE RS</span>
+        </div>
+      </div>
+      <div class="ftr">
+        <svg class="bc" data-code="90010150"></svg>
+        <span class="cap">CEP 90010150</span>
+      </div>
+    </div>
+    <dl class="expect">
+      <dt>CEP</dt><dd>90010150 (também pelo código de barras)</dd>
+      <dt>Nome</dt><dd>Ana Costa</dd>
+      <dt>Número</dt><dd>2529</dd>
+      <dt>Compl.</dt><dd>sala 301</dd>
+    </dl>
+  </section>
+
+  <section class="notes">
+    <strong>Dicas para o teste</strong>
+    <ul>
+      <li>Na tela do celular ou monitor, aumente o brilho e evite reflexo. Papel impresso dá resultado melhor.</li>
+      <li>Nas etiquetas 1 e 4 o código de barras traz o CEP. O app mostra o chip "CEP lido no código de barras" antes mesmo de capturar.</li>
+      <li>Na etiqueta 2 há dois CEPs e nenhum barcode de CEP. O app deve perguntar qual é o de entrega, sugerindo 72331-502 como destinatário.</li>
+      <li>Depois de ler, o formulário abre pré-preenchido e busca o endereço pelo CEP. Confira e salve.</li>
+    </ul>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
+<script>
+  document.querySelectorAll('svg.bc').forEach(function (el) {
+    try {
+      JsBarcode(el, el.dataset.code, { format: 'CODE128', displayValue: false, height: 48, width: 2, margin: 4, background: '#FFFFFF', lineColor: '#111111' });
+    } catch (e) {
+      el.replaceWith(document.createTextNode(el.dataset.code));
+    }
+  });
+</script>
