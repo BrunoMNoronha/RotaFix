@@ -1,6 +1,9 @@
 export type GeocodeStatus = 'ok' | 'pending' | 'failed';
-/** address: número exato · street: trecho da rua · cep: centroide do CEP (aproximado) */
-export type GeocodePrecision = 'address' | 'street' | 'cep';
+/**
+ * address: número exato · street: trecho da rua · neighborhood: centro do bairro ·
+ * cep: centroide do CEP (frequentemente o centro da cidade)
+ */
+export type GeocodePrecision = 'address' | 'street' | 'neighborhood' | 'cep';
 
 export interface Route {
   id: string;

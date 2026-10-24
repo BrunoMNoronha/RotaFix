@@ -39,7 +39,12 @@ interface RoutesState {
 
 /** Sem coordenadas, ou com coordenadas aproximadas (centroide do CEP / precisão desconhecida). */
 export function needsGeocodeRetry(s: Stop): boolean {
-  return s.geocodeStatus !== 'ok' || s.geocodePrecision === 'cep' || s.geocodePrecision === null;
+  return (
+    s.geocodeStatus !== 'ok' ||
+    s.geocodePrecision === 'cep' ||
+    s.geocodePrecision === 'neighborhood' ||
+    s.geocodePrecision === null
+  );
 }
 
 function requireRepo(repo: Repo | null): Repo {

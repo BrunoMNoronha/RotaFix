@@ -58,6 +58,12 @@ export function StopCard({ stop, geocoding, onToggleDone, onNavigate, onDelete, 
               ≈ Local aproximado pelo CEP · tocar para refinar
             </Text>
           </Pressable>
+        ) : stop.geocodePrecision === 'neighborhood' ? (
+          <Pressable onPress={onRetryGeocode} style={styles.status}>
+            <Text style={[styles.statusText, { color: colors.warning }]}>
+              ≈ Centro do bairro (rua não mapeada) · tocar para tentar de novo
+            </Text>
+          </Pressable>
         ) : stop.geocodePrecision === 'street' && stop.number ? (
           <Text style={styles.statusText}>≈ Trecho da rua (número não localizado)</Text>
         ) : null}

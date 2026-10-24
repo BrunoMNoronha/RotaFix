@@ -2,7 +2,6 @@ import { haversine, formatDistance } from '@/utils/haversine';
 import { normalizeCep, isValidCep, formatCep } from '@/utils/cep';
 import { decodePolyline } from '@/utils/polyline';
 import { buildGoogleMapsUrl, chunkForGoogle } from '@/services/navigation';
-import { buildAddressQuery } from '@/services/geocode';
 import { mapViaCep, mapBrasilApi } from '@/services/cep';
 
 describe('haversine', () => {
@@ -56,16 +55,6 @@ describe('navigation', () => {
     const pts = Array.from({ length: 23 }, (_, i) => ({ lat: i, lng: i }));
     const chunks = chunkForGoogle(pts);
     expect(chunks.map((c) => c.length)).toEqual([10, 10, 3]);
-  });
-});
-
-describe('geocode query', () => {
-  const a = { street: 'Av. Paulista', number: '1000', neighborhood: 'Bela Vista', city: 'São Paulo', state: 'SP', cep: '01310100' };
-  it('com número', () => {
-    expect(buildAddressQuery(a)).toBe('Av. Paulista, 1000, Bela Vista, São Paulo, SP, Brasil');
-  });
-  it('sem número', () => {
-    expect(buildAddressQuery(a, false)).toBe('Av. Paulista, Bela Vista, São Paulo, SP, Brasil');
   });
 });
 

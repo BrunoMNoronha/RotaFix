@@ -167,7 +167,7 @@ export default function RouteDetailScreen() {
                 ? `${missingCount} ponto(s) sem localização e ${approxCount} com local aproximado.`
                 : missingCount > 0
                   ? `${missingCount} ponto(s) sem localização no mapa.`
-                  : `${approxCount} ponto(s) com local aproximado pelo CEP.`
+                  : `${approxCount} ponto(s) com local aproximado.`
             }
             action={{ title: 'Tentar novamente', onPress: () => void retryPendingGeocodes(routeId) }}
           />
