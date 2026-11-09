@@ -43,3 +43,6 @@ yarn-error.*
 
 # APKs baixados
 /build
+
+# Worktrees criados por agentes (Claude Code / Codex)
+.claude/worktrees/
